@@ -1,7 +1,7 @@
 /*-
  * Copyright (c) 2015 Sofian Brabez <sbz@FreeBSD.org>
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -11,7 +11,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -34,50 +34,54 @@
 #include <unistd.h>
 
 static int
-elf_debug_sections(Elf *e) {
-        Elf_Scn *scn=NULL;
-        GElf_Shdr shdr;
-        size_t n, shstrndx, sz;
-        char *name;
-        int has_debug=0;
+elf_debug_sections(Elf *e)
+{
+	Elf_Scn *scn = NULL;
+	GElf_Shdr shdr;
+	size_t n, shstrndx, sz;
+	char *name;
+	int has_debug = 0;
 
-        if (elf_getshdrstrndx(e, &shstrndx) != 0)
-                errx(EX_SOFTWARE, "elf_getshdrstrndx() failed : %s . " , elf_errmsg(-1));
+	if (elf_getshdrstrndx(e, &shstrndx) != 0)
+		errx(EX_SOFTWARE, "elf_getshdrstrndx() failed : %s . ",
+		    elf_errmsg(-1));
 
-        while ((scn = elf_nextscn(e, scn)) != NULL) {
-                gelf_getshdr(scn, &shdr);
+	while ((scn = elf_nextscn(e, scn)) != NULL) {
+		gelf_getshdr(scn, &shdr);
 
-                name = elf_strptr(e, shstrndx, shdr.sh_name);
-                if (!strstr(name, "debug_"))
-                    continue;
+		name = elf_strptr(e, shstrndx, shdr.sh_name);
+		if (!strstr(name, "debug_"))
+			continue;
 
-                has_debug++;
+		has_debug++;
+	}
 
-        }
-
-        return (has_debug > 0);
+	return (has_debug > 0);
 }
 
-int main(int argc, char *argv[]) {
-        int fd, rc;
-        Elf *e;
-        int has_debug;
+int
+main(int argc, char *argv[])
+{
+	int fd, rc;
+	Elf *e;
+	int has_debug;
 
-        if (elf_version(EV_CURRENT) == EV_NONE )
-                errx(EX_SOFTWARE, "ELF library initialization failed : %s ", elf_errmsg(-1));
+	if (elf_version(EV_CURRENT) == EV_NONE)
+		errx(EX_SOFTWARE, "ELF library initialization failed : %s ",
+		    elf_errmsg(-1));
 
-        if ((fd =open(argv [1], O_RDONLY , 0)) < 0)
-                err(EX_NOINPUT,"open %s failed ", argv [1]);
-        if ((e = elf_begin(fd, ELF_C_READ , NULL)) == NULL)
-                errx(EX_SOFTWARE, "elf_begin () failed : %s . ", elf_errmsg(-1));
-        if (elf_kind(e) != ELF_K_ELF)
-                errx(EX_DATAERR, "%s is not an ELF object . ", argv[1]);
+	if ((fd = open(argv[1], O_RDONLY, 0)) < 0)
+		err(EX_NOINPUT, "open %s failed ", argv[1]);
+	if ((e = elf_begin(fd, ELF_C_READ, NULL)) == NULL)
+		errx(EX_SOFTWARE, "elf_begin() failed : %s", elf_errmsg(-1));
+	if (elf_kind(e) != ELF_K_ELF)
+		errx(EX_DATAERR, "%s is not an ELF object", argv[1]);
 
-        has_debug=elf_debug_sections(e);
-        printf(has_debug ? "HAS DEBUG\n" : "NO DEBUG\n");
+	has_debug = elf_debug_sections(e);
+	printf(has_debug ? "HAS DEBUG\n" : "NO DEBUG\n");
 
-	rc=close(fd);
-	rc=elf_end(e);
+	rc = close(fd);
+	rc = elf_end(e);
 
 	return (rc);
 }
