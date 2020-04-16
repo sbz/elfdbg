@@ -9,4 +9,7 @@ SRCS=	elfdbg.c
 
 LDADD=	-lelf
 
+test:
+	@(cd tests && kyua test && kyua report)
+
 .include <bsd.prog.mk>

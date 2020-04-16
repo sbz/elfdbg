@@ -1,0 +1,5 @@
+syntax(2)
+
+test_suite('elfdbg')
+
+atf_test_program{name='elfdbg_test.sh'}
