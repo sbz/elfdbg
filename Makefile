@@ -5,9 +5,7 @@ BINDIR=	${PREFIX}/bin
 
 PROG=	elfdbg
 MAN=	elfdbg.1
-SRCS=	elfdbg.c
-
-LDADD=	-lelf
+SRCS=	elfdbg.c elf.c
 
 test:
 	@(cd tests && kyua test && kyua report)

@@ -23,46 +23,20 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <err.h>
-#include <fcntl.h>
-#include <gelf.h>
-#include <stdint.h>
-#include <string.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sysexits.h>
 #include <unistd.h>
 
+#include "elf.h"
+
 extern char *__progname;
 
-static int
-elf_debug_sections(Elf *e)
-{
-	Elf_Scn *scn = NULL;
-	GElf_Shdr shdr;
-	size_t n, shstrndx, sz;
-	char *name;
-	int has_debug = 0;
-
-	if (elf_getshdrstrndx(e, &shstrndx) != 0)
-		errx(EX_SOFTWARE, "elf_getshdrstrndx() failed : %s . ",
-		    elf_errmsg(-1));
-
-	while ((scn = elf_nextscn(e, scn)) != NULL) {
-		gelf_getshdr(scn, &shdr);
-
-		name = elf_strptr(e, shstrndx, shdr.sh_name);
-		if (!strstr(name, "debug_"))
-			continue;
-
-		has_debug++;
-	}
-
-	return (has_debug > 0);
-}
-
 static void
-usage(void) {
+usage(void)
+{
 	fprintf(stderr, "Usage: %s file\n", __progname);
 	exit(EX_USAGE);
 }
@@ -70,32 +44,25 @@ usage(void) {
 int
 main(int argc, char *argv[])
 {
-	const char *filename;
-	int fd, rc;
-	Elf *e;
-	int has_debug;
+	int rc, has_debug;
+	Elf_Obj *e = NULL;
+	Elf_Shdr *shstr = NULL;
 
 	if (argc == 1)
 		usage();
 
-	filename = argv[1];
+	/* load elf binary in memory */
+	e = elf_init(argv[1]);
 
-	if (elf_version(EV_CURRENT) == EV_NONE)
-		errx(EX_SOFTWARE, "ELF library initialization failed : %s ",
-		    elf_errmsg(-1));
+	/* load string stable */
+	shstr = elf_strtab(e);
 
-	if ((fd = open(filename, O_RDONLY, 0)) < 0)
-		err(EX_NOINPUT, "open %s failed ", filename);
-	if ((e = elf_begin(fd, ELF_C_READ, NULL)) == NULL)
-		errx(EX_SOFTWARE, "elf_begin() failed : %s", elf_errmsg(-1));
-	if (elf_kind(e) != ELF_K_ELF)
-		errx(EX_DATAERR, "%s is not an ELF object", filename);
+	/* search for sections name with debug prefix */
+	has_debug = elf_debug(e);
 
-	has_debug = elf_debug_sections(e);
-	printf(has_debug ? "HAS DEBUG\n" : "NO DEBUG\n");
+	printf("%s\n", (has_debug > 0) ? "HAS DEBUG" : "NO DEBUG");
 
-	rc = close(fd);
-	rc = elf_end(e);
+	rc = elf_destroy(e);
 
 	return (rc);
 }

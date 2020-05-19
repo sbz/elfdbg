@@ -30,17 +30,20 @@
 .Nd analyze if binary is compiled with debug sections
 .Sh SYNOPSIS
 .Nm
-.Ar file
+.Ar [-qv] file
 .Sh DESCRIPTION
 The
 .Nm
-utility reports if a binary is compiled with debug sections, commonly
-known as 
-.Ar -g 
+utility reports if a binary is compiled with debug sections commonly generated
+with the
+.Ar -g
 compiler toolchain flag.
+
+The program lookup for the sections name starting with
+.Ar .debug_
+in order to determine if he has debug information.
 .Sh SEE ALSO
-.Xr elf 3 , 
-.Xr gelf 3
+.Xr elf 5
 .Sh AUTHORS
 .An -nosplit
 The
