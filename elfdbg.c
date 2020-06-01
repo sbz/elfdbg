@@ -24,6 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <err.h>
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,7 +38,7 @@ extern char *__progname;
 static void
 usage(void)
 {
-	fprintf(stderr, "Usage: %s file\n", __progname);
+	fprintf(stderr, "Usage: %s [-qv] file\n", __progname);
 	exit(EX_USAGE);
 }
 
@@ -45,16 +46,34 @@ int
 main(int argc, char *argv[])
 {
 	int rc, has_debug;
+	int ch, qflag=0, vflag=0;
 	Elf_Obj *e = NULL;
 	Elf_Shdr *shstr = NULL;
 
 	if (argc == 1)
 		usage();
 
+	while ((ch = getopt(argc, argv, "qhv")) != -1) {
+		switch (ch) {
+			case 'q':
+				qflag = 1;
+				break;
+			case 'v':
+				vflag = 1;
+				break;
+			case 'h':
+				default:
+				usage();
+		}
+	}
+
+	argc -= optind;
+	argv += optind;
+
 	/* load elf binary in memory */
-	e = elf_init(argv[1]);
-    if (e == NULL)
-        errx(EX_DATAERR, "elf_init");
+	e = elf_init(*argv);
+	if (e == NULL)
+		errx(EX_DATAERR, "elf_init");
 
 	/* load string stable */
 	shstr = elf_strtab(e);
@@ -62,9 +81,17 @@ main(int argc, char *argv[])
 	/* search for sections name with debug prefix */
 	has_debug = elf_debug(e);
 
-	printf("%s\n", (has_debug > 0) ? "HAS DEBUG" : "NO DEBUG");
+	if (!qflag)
+		printf("%s\n", (has_debug > 0) ? "HAS DEBUG" : "NO DEBUG");
+
+	if (vflag)
+		elf_debug_print(e);
 
 	rc = elf_destroy(e);
+
+	if (qflag) {
+		rc = has_debug > 0;
+	}
 
 	return (rc);
 }

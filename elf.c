@@ -113,4 +113,20 @@ elf_debug(Elf_Obj *e)
 
     return (has_debug);
 }
+
+void
+elf_debug_print(Elf_Obj *e)
+{
+    int i;
+    char *debug_prefix = ".debug_";
+    char *section_name = NULL;
+
+    printf("%d ELF debug sections:\n", elf_debug(e));
+
+    for (i=0; i < e->shdr_size; i++) {
+        section_name = elf_str_get(e, i);
+        if (strnstr(section_name, debug_prefix, strlen(debug_prefix))) {
+            printf("%s\n", section_name);
+        }
+    }
 }

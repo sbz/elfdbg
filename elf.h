@@ -18,3 +18,4 @@ int elf_destroy(Elf_Obj *);
 Elf_Shdr *elf_strtab(Elf_Obj *);
 char *elf_str_get(Elf_Obj *, int);
 int elf_debug(Elf_Obj *);
+void elf_debug_print(Elf_Obj *);
