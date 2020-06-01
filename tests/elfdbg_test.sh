@@ -19,7 +19,7 @@ stripped_body()
     if [ "$out" == "$expected" ]; then
         atf_pass
     else
-        atf_fail "Wrong output w/o debug symbols"
+        atf_fail "Wrong output w/o debug symbols '$out'"
     fi
 }
 
@@ -43,7 +43,7 @@ not_stripped_body()
     if [ "$out" == "$expected" ]; then
         atf_pass
     else
-        atf_fail "Wrong output w/ debug symbols"
+        atf_fail "Wrong output w/ debug symbols '$out'"
     fi
 }
 
