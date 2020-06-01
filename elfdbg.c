@@ -46,7 +46,7 @@ int
 main(int argc, char *argv[])
 {
 	int rc, has_debug;
-	int ch, qflag=0, vflag=0;
+	int ch, qflag = 0, vflag = 0;
 	Elf_Obj *e = NULL;
 	Elf_Shdr *shstr = NULL;
 
@@ -55,15 +55,15 @@ main(int argc, char *argv[])
 
 	while ((ch = getopt(argc, argv, "qhv")) != -1) {
 		switch (ch) {
-			case 'q':
-				qflag = 1;
-				break;
-			case 'v':
-				vflag = 1;
-				break;
-			case 'h':
-				default:
-				usage();
+		case 'q':
+			qflag = 1;
+			break;
+		case 'v':
+			vflag = 1;
+			break;
+		case 'h':
+		default:
+			usage();
 		}
 	}
 
