@@ -1,0 +1,24 @@
+CC?=	cc
+CFLAGS?=	-O2 -g -pipe -D_DEFAULT_SOURCE -Wincompatible-pointer-types
+SRCS=	elf.c elfdbg.c compat.c
+OBJS=	${SRCS:.c=.o}
+PREFIX?=	/usr/local
+
+all: elfdbg
+
+elfdbg: ${OBJS}
+	${CC} ${OBJS} ${LDFLAGS} -o $@
+
+.c.o:
+	${CC} ${CFLAGS} -c $<
+
+install: elfdbg
+	install -m 755 elfdbg ${DESTDIR}${PREFIX}/bin/
+
+install-strip: elfdbg
+	install -s -m 755 elfdbg ${DESTDIR}${PREFIX}/bin/
+
+clean:
+	rm -rf ${OBJS} elfdbg
+
+.PHONY: elfdbg

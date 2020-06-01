@@ -42,11 +42,13 @@ pkg info -a -l|grep local/bin/|while read a; do echo $a: `elfdbg $a`; done
 
 ## Build and install
 
-The Makefile use the standard BSDMakefile to build the program.
+The Makefile use the standard BSD Makefile to build the program.
 
 ```
 make && sudo make install
 ```
+
+If your on Linux, use `make -f GNUMakefile` to specify the GNU Makefile.
 
 ## Test
 

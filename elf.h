@@ -1,5 +1,10 @@
+#ifndef ELFDBG_ELF_H
+#define ELFDBG_ELF_H 1
+
 #include <elf.h>
 #include <sys/stat.h>
+
+#include "compat.h"
 
 typedef struct Elf_Obj {
     int         fd; /* file descriptor */
@@ -19,3 +24,5 @@ Elf_Shdr *elf_strtab(Elf_Obj *);
 char *elf_str_get(Elf_Obj *, int);
 int elf_debug(Elf_Obj *);
 void elf_debug_print(Elf_Obj *);
+
+#endif /* ELFDBG_ELF_H */
