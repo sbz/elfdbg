@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <errno.h>
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,6 +53,8 @@ main(int argc, char *argv[])
 
 	/* load elf binary in memory */
 	e = elf_init(argv[1]);
+    if (e == NULL)
+        errx(EX_DATAERR, "elf_init");
 
 	/* load string stable */
 	shstr = elf_strtab(e);
