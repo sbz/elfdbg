@@ -14,6 +14,32 @@ The program is looking for the existence of sections with name starting with
 The [ELF][ELF] format is a well-known standard. ELF TIS reference specification
 is available [here][spec] and as a FreeBSD [elf(5)][man] man page.
 
+## Usage
+
+This is intented to be used in shell script in order to avoid using file(1) and
+parsing the output like below:
+
+```shell
+`file /path/to/binary | awk '/debug_info/{print $2}'` != 'ELF'
+```
+
+To determine if binary has been built with debug, use the following:
+
+```shell
+if elfdbg -q /path/to/binary; then
+        echo "No symbols"
+    else
+        echo "Binary with debug symbols"
+fi
+```
+
+On FreeBSD, you can easily identify the binary packages with missing debug
+using similar one-liner:
+
+```shell
+pkg info -a -l|grep local/bin/|while read a; do echo $a: `elfdbg $a`; done
+```
+
 ## Build and install
 
 The Makefile use the standard BSDMakefile to build the program.
@@ -36,7 +62,7 @@ make test
 * _2015_ I wrote this using libelf elf(3) and gelf(3) API
   [f4b470b](https://github.com/sbz/elfdbg/commit/f4b470b)
 * _2020_ I rewrote this without relying on libelf API
-  [96010ce](https://github.com/sbz/eldbg/commit/96010ce)
+  [1960d10](https://github.com/sbz/elfdbg/commit/1960d10)
 
 [ELF]: https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
 [spec]: http://refspecs.linuxbase.org/elf/elf.pdf
