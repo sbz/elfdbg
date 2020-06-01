@@ -22,7 +22,7 @@ Elf_Obj *elf_init(const char *);
 int elf_destroy(Elf_Obj *);
 Elf_Shdr *elf_strtab(Elf_Obj *);
 char *elf_str_get(Elf_Obj *, int);
-int elf_debug(Elf_Obj *);
+int elf_debug_count(Elf_Obj *);
 void elf_debug_print(Elf_Obj *);
 
 #endif /* ELFDBG_ELF_H */

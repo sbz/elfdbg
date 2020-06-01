@@ -79,7 +79,7 @@ main(int argc, char *argv[])
 	shstr = elf_strtab(e);
 
 	/* search for sections name with debug prefix */
-	has_debug = elf_debug(e);
+	has_debug = elf_debug_count(e);
 
 	if (!qflag)
 		printf("%s\n", (has_debug > 0) ? "HAS DEBUG" : "NO DEBUG");

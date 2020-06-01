@@ -98,7 +98,7 @@ elf_str_get(Elf_Obj *e, int index)
 }
 
 int
-elf_debug(Elf_Obj *e)
+elf_debug_count(Elf_Obj *e)
 {
 	int i, has_debug = 0;
 	char *debug_prefix = ".debug_";
@@ -121,7 +121,7 @@ elf_debug_print(Elf_Obj *e)
 	char *debug_prefix = ".debug_";
 	char *section_name = NULL;
 
-	printf("%d ELF debug sections:\n", elf_debug(e));
+	printf("%d ELF debug sections:\n", elf_debug_count(e));
 
 	for (i = 0; i < e->shdr_size; i++) {
 		if (e->shdr[i].sh_type != SHT_PROGBITS)
