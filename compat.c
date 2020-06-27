@@ -1,5 +1,6 @@
 #include <string.h>
 
+#if defined(__linux__) || defined(__OpenBSD__)
 char *
 strnstr(const char *s, const char *find, size_t slen)
 {
@@ -20,3 +21,4 @@ strnstr(const char *s, const char *find, size_t slen)
 	}
 	return ((char *)s);
 }
+#endif

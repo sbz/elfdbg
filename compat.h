@@ -10,8 +10,10 @@ typedef Elf64_Shdr Elf_Shdr;
 typedef Elf32_Ehdr Elf_Ehdr;
 typedef Elf32_Shdr Elf_Shdr;
 #endif
+#endif
 
-/* Linux does not define strnstr() function */
+#if defined(__linux__) || defined(__OpenBSD__)
+/* Linux and OpenBSD does not define strnstr() function */
 char *strnstr(const char *, const char *, size_t);
 #endif
 
