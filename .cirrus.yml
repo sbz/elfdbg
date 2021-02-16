@@ -1,3 +1,6 @@
+env:
+  CIRRUS_CLONE_DEPTH: 1
+
 freebsd_task:
   freebsd_instance:
     image_family: freebsd-13-0-snap
@@ -9,3 +12,13 @@ freebsd_task:
     - make install
   check_script:
     - make test
+
+linux_task:
+  container:
+    image: ubuntu:latest
+
+  install_script:
+    - apt update && apt install -y build-essential gzip
+  script:
+    - make -f GNUMakefile
+    - make -f GNUMakefile install
