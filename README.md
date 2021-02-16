@@ -1,5 +1,7 @@
 # elfdbg
 
+[![Build Status](https://api.cirrus-ci.com/github/sbz/elfdbg.svg)](https://cirrus-ci.com/github/sbz/elfdbg)
+
 ## About
 
 This project _elfdbg_ is a utility program to quickly identify if an ELF binary
