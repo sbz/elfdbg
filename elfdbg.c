@@ -77,6 +77,8 @@ main(int argc, char *argv[])
 
 	/* load string stable */
 	shstr = elf_strtab(e);
+	if (shstr == NULL)
+		errx(EX_DATAERR, "elf_strtab: error while loading string table");
 
 	/* search for sections name with debug prefix */
 	has_debug = elf_debug_count(e);
