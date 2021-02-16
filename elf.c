@@ -37,10 +37,10 @@ elf_init(const char *filename)
 	e->ehdr_size = e->ehdr->e_ehsize;
 
 	if (e->sb.st_size < sizeof(Elf_Ehdr))
-		errx(1, "not a ELF object");
+		errx(1, "not a ELF object %s:%d", __func__, __LINE__);
 
 	if (memcmp(e->ehdr->e_ident, ELFMAG, sizeof(ELFMAG) - 1) != 0)
-		errx(1, "not a ELF object");
+		errx(1, "not a ELF object %s:%d", __func__, __LINE__);
 
 	e->shdr = (Elf_Shdr *)(e->mm + e->ehdr->e_shoff);
 	e->shdr_size = e->ehdr->e_shnum;
