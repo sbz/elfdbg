@@ -1,0 +1,11 @@
+freebsd_task:
+  freebsd_instance:
+    image_family: freebsd-13-0-snap
+
+  install_script:
+    - pkg install -y kyua
+  script:
+    - make
+    - make install
+  check_script:
+    - make test
