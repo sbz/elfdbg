@@ -1,6 +1,7 @@
 # elfdbg
 
-[![Build Status](https://api.cirrus-ci.com/github/sbz/elfdbg.svg)](https://cirrus-ci.com/github/sbz/elfdbg)
+[![FreeBSD Build Status](https://api.cirrus-ci.com/github/sbz/elfdbg.svg?task=freebsd)](https://cirrus-ci.com/github/sbz/elfdbg)
+[![Linux Build Status](https://api.cirrus-ci.com/github/sbz/elfdbg.svg?task=linux)](https://cirrus-ci.com/github/sbz/elfdbg)
 
 ## About
 
