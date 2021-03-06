@@ -51,7 +51,7 @@ The Makefile use the standard BSD Makefile to build the program.
 make && sudo make install
 ```
 
-If your on Linux, use `make -f GNUMakefile` to specify the GNU Makefile.
+If your on Linux, use `make` also build using the GNU Makefile.
 
 ## Test
 
