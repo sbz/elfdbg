@@ -20,5 +20,5 @@ linux_task:
   install_script:
     - apt update && apt install -y build-essential gzip
   script:
-    - make -f GNUMakefile
-    - make -f GNUMakefile install
+    - make
+    - make install
