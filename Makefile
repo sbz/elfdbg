@@ -3,6 +3,8 @@
 PREFIX?=	/usr/local
 BINDIR=	${PREFIX}/bin
 
+CFLAGS=-O2 -pipe -std=gnu99
+
 PROG=	elfdbg
 MAN=	elfdbg.1
 SRCS=	elfdbg.c elf.c compat.c
