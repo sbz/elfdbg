@@ -1,5 +1,6 @@
 CC?=	cc
-CFLAGS?=	-O2 -g -pipe -D_DEFAULT_SOURCE -Wincompatible-pointer-types
+CFLAGS?=	-O2 -g -pipe -D_DEFAULT_SOURCE \
+			-Wincompatible-pointer-types -Wall
 SRCS=	elf.c elfdbg.c compat.c
 OBJS=	${SRCS:.c=.o}
 PREFIX?=	/usr/local

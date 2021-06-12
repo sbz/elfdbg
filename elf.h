@@ -6,7 +6,7 @@
 
 #include "compat.h"
 
-typedef struct Elf_Obj {
+typedef struct {
 	int fd; /* file descriptor */
 	struct stat sb; /* file stat */
 	char *mm; /* memory mapping */
@@ -21,8 +21,8 @@ typedef struct Elf_Obj {
 Elf_Obj *elf_init(const char *);
 int elf_destroy(Elf_Obj *);
 Elf_Shdr *elf_strtab(Elf_Obj *);
-char *elf_str_get(Elf_Obj *, int);
-int elf_debug_count(Elf_Obj *);
+char *elf_str_get(Elf_Obj *, size_t);
+unsigned int elf_debug_count(Elf_Obj *);
 void elf_debug_print(Elf_Obj *);
 
 #endif /* ELFDBG_ELF_H */

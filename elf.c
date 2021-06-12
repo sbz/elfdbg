@@ -117,7 +117,7 @@ elf_destroy(Elf_Obj *e)
 }
 
 char *
-elf_str_get(Elf_Obj *e, int index)
+elf_str_get(Elf_Obj *e, size_t index)
 {
 	if (e == NULL || index > e->strtab_size)
 		return (NULL);
@@ -125,16 +125,17 @@ elf_str_get(Elf_Obj *e, int index)
 	return (&e->strtab[e->shdr[index].sh_name]);
 }
 
-int
+unsigned int
 elf_debug_count(Elf_Obj *e)
 {
-	int i, has_debug = 0;
-	char *debug_prefix = ".debug_";
+	unsigned int has_debug = 0;
+	const char debug_prefix[] = ".debug_";
 	char *section_name = NULL;
 
-	for (i = 0; i < e->shdr_size; i++) {
+	for (size_t i = 0; i < e->shdr_size; i++) {
 		section_name = elf_str_get(e, i);
-		if (strnstr(section_name, debug_prefix, strlen(debug_prefix))) {
+        if (strnstr(section_name, debug_prefix,
+                    strlen(debug_prefix))) {
 			has_debug++;
 		}
 	}
@@ -145,18 +146,18 @@ elf_debug_count(Elf_Obj *e)
 void
 elf_debug_print(Elf_Obj *e)
 {
-	int i;
-	char *debug_prefix = ".debug_";
+	const char debug_prefix[] = ".debug_";
 	char *section_name = NULL;
 
-	printf("%d ELF debug sections:\n", elf_debug_count(e));
+	printf("%u ELF debug sections:\n", elf_debug_count(e));
 
-	for (i = 0; i < e->shdr_size; i++) {
+	for (size_t i = 0; i < e->shdr_size; i++) {
 		if (e->shdr[i].sh_type != SHT_PROGBITS)
 			continue;
 
 		section_name = elf_str_get(e, i);
-		if (strnstr(section_name, debug_prefix, strlen(debug_prefix))) {
+		if (strnstr(section_name, debug_prefix,
+                    strlen(debug_prefix))) {
 			printf("%s\n", section_name);
 		}
 	}

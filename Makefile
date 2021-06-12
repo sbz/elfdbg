@@ -3,7 +3,7 @@
 PREFIX?=	/usr/local
 BINDIR=	${PREFIX}/bin
 
-CFLAGS=-O2 -pipe -std=gnu99
+CFLAGS=-O2 -pipe -std=gnu99 -Wall
 
 PROG=	elfdbg
 MAN=	elfdbg.1

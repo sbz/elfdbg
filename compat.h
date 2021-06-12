@@ -13,7 +13,7 @@ typedef Elf32_Shdr Elf_Shdr;
 #endif
 
 #if defined(__linux__) || defined(__OpenBSD__)
-/* Linux and OpenBSD does not define strnstr() function */
+/* Linux and OpenBSD do not define strnstr() function */
 char *strnstr(const char *, const char *, size_t);
 #endif
 

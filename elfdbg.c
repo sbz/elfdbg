@@ -46,7 +46,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	int rc, has_debug;
+	int rc; 
+	unsigned int has_debug;
 	int ch, qflag = 0, vflag = 0;
 	Elf_Obj *e = NULL;
 	Elf_Shdr *shstr = NULL;
