@@ -1,6 +1,7 @@
 #! /usr/bin/env atf-sh
 
 . $(atf_get_srcdir)/test_helper.sh
+elfdbg_path=$(which elfdbg)
 
 atf_test_case stripped
 
@@ -14,7 +15,9 @@ stripped_body()
 {
     generate_bin_nodbg
 
-    out=$(elfdbg bin)
+    [ ! -f "${elfdbg_path}" ] && atf_fail "No elfdbg binary found in '$PATH'"
+
+    out=$(${elfdbg_path} bin)
     expected="NO DEBUG"
     if [ "$out" == "$expected" ]; then
         atf_pass
@@ -38,7 +41,9 @@ not_stripped_body()
 {
     generate_bin_dbg
 
-    out=$(elfdbg bin)
+    [ ! -f "${elfdbg_path}" ] && atf_fail "No elfdbg binary found in '$PATH'"
+
+    out=$(${elfdbg_path} bin)
     expected="HAS DEBUG"
     if [ "$out" == "$expected" ]; then
         atf_pass
